@@ -9,6 +9,25 @@
 본 프로젝트는 **Gazebo에서 먼저 객체 인지·좌표 변환·Navigation·Pick & Place 흐름을 검증**한 뒤, 실제 RGB-D 카메라와 모바일 로봇 환경으로 확장했습니다.  
 최종 플랫폼은 **TurtleBot3 + OpenManipulator-X** 기반 모바일 매니퓰레이터를 사용했습니다.
 
+<br>
+
+<table align="center">
+  <tr>
+    <td align="center"><b>Real-World Pick</b></td>
+    <td align="center"><b>Gazebo Pick & Place</b></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/sim_pick.gif" width="480">
+    </td>
+    <td align="center">
+      <img src="assets/gazebo_pick_place_coke.gif" width="480">
+    </td>
+  </tr>
+</table>
+
+<br>
+
 ---
 
 ## 📌 Project Overview
@@ -74,11 +93,24 @@ Simulation 환경은 **AWS RoboMaker Small House World**를 기반으로 구성�
 🔗 [AWS RoboMaker Small House World](https://github.com/aws-robotics/aws-robomaker-small-house-world)  
 🔗 [ROBOTIS TurtleBot3 Manipulation](https://docs.robotis.com/docs/systems/turtlebot3/manipulation/#simulation)
 
-<p align="center">
-  <img src="assets/gazebo_coke_detection.png" width="70%" alt="Gazebo coke detection">
-</p>
+### Simulation World
 
-Gazebo 환경에서는 객체 검출뿐 아니라 RGB-D 정보를 이용한 **3D 좌표 계산 및 로봇 좌표계 변환**을 함께 검증했습니다.
+<table align="center">
+  <tr>
+    <td align="center"><b>Top View</b></td>
+    <td align="center"><b>Indoor Environment</b></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/sim_world_top.png" width="480">
+    </td>
+    <td align="center">
+      <img src="assets/sim_world.png" width="480">
+    </td>
+  </tr>
+</table>
+
+Gazebo 환경에서는 실제 주거 공간과 유사한 실내 환경을 구성하고, 객체 검출뿐 아니라 RGB-D 정보를 이용한 **3D 좌표 계산 및 로봇 좌표계 변환**을 함께 검증했습니다.
 
 ---
 
@@ -192,9 +224,13 @@ code/model/best_wire.pt
 
 Wire 모델은 Segmentation Mask 내부의 Depth 값을 사용하여 객체 위치를 계산하도록 구현했습니다.
 
+### Wire Segmentation & Depth
+
 <p align="center">
-  <img src="assets/wire_result.png" width="100%" alt="Wire model training results">
+  <img src="assets/cut_wire_detection.gif" width="75%" alt="Wire Detection Demo">
 </p>
+
+Wire Segmentation 결과에서 Mask 내부의 유효 Depth를 탐색하고, 해당 위치를 Camera → Robot → World 좌표계 순으로 변환합니다.
 
 ### Pipeline
 
@@ -212,9 +248,9 @@ Robot Coordinate
 World Coordinate
 ```
 
-### Demo
-
-▶ [Wire Detection Demo](assets/wire_detection.webm)
+<p align="center">
+  <img src="assets/wire_result.png" width="100%" alt="Wire model training results">
+</p>
 
 > Wire의 **인지 및 좌표 계산까지 구현**했으며, 이후 로봇팔을 이용해 전선을 집거나 정리하는 동작은 구현하지 않았습니다.
 
@@ -223,6 +259,14 @@ World Coordinate
 # 🗺️ Navigation
 
 `navgation.py`는 `/robot_point`로 목표 좌표를 수신하고 `/amcl_pose`로 현재 위치와 yaw를 확인한 뒤, PID 제어를 통해 로봇을 목표 지점으로 이동시킵니다.
+
+### Navigation Demo
+
+<p align="center">
+  <img src="assets/move_trash_navtion.gif" width="75%" alt="Navigation Demo">
+</p>
+
+객체의 월드 좌표를 목표점으로 설정하고 현재 로봇 위치와 목표 방향의 오차를 계산하여 **회전 → 직진 이동** 순으로 목표 위치에 접근하도록 구현했습니다.
 
 ```text
 /robot_point
@@ -297,6 +341,7 @@ Linear + Angular Control
 # 🛠️ Tech Stack
 
 ### Robotics
+
 ![ROS](https://img.shields.io/badge/ROS-Noetic-22314E?logo=ros)
 ![Gazebo](https://img.shields.io/badge/Gazebo-Simulation-orange)
 ![TurtleBot3](https://img.shields.io/badge/TurtleBot3-Mobile_Robot-blue)
@@ -309,6 +354,7 @@ Linear + Angular Control
 - OpenManipulator-X
 
 ### Vision
+
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python)
 ![YOLO](https://img.shields.io/badge/YOLOv8-Ultralytics-111F68)
 ![OpenCV](https://img.shields.io/badge/OpenCV-Vision-5C3EE8?logo=opencv)
@@ -329,13 +375,13 @@ Linear + Angular Control
         RGB-D Camera
              │
              ▼
-     ┌────────────────┐
+     ┌───────────────────┐
      │ OpenManipulator-X │
-     └────────┬───────┘
-              │
-       ┌──────▼──────┐
-       │  TurtleBot3 │
-       └─────────────┘
+     └─────────┬─────────┘
+               │
+        ┌──────▼──────┐
+        │  TurtleBot3 │
+        └─────────────┘
 ```
 
 ROBOTIS 공식 문서에서도 OpenManipulator-X를 TurtleBot3 Waffle과 결합한 모바일 매니퓰레이터 구성을 제공하고 있습니다.
@@ -364,6 +410,14 @@ sim2real/
     ├── gazebo_coke_detection.png
     ├── wrong_detection_coke.png
     ├── wire_result.png
+    │
+    ├── sim_world_top.png
+    ├── sim_world.png
+    │
+    ├── sim_pick.gif
+    ├── gazebo_pick_place_coke.gif
+    ├── move_trash_navtion.gif
+    ├── cut_wire_detection.gif
     │
     ├── gazebo_pick_place_coke.mp4
     ├── gazebo_trash_navgation_demo.webm
