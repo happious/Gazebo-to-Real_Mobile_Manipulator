@@ -18,10 +18,10 @@
   </tr>
   <tr>
     <td align="center">
-      <img src="assets/sim_pick.gif" width="480">
+      <img src="assets/gazebo_pick_place_coke.gif" width="480">
     </td>
     <td align="center">
-      <img src="assets/gazebo_pick_place_coke.gif" width="480">
+      <img src="assets/real_pick.gif" width="480">
     </td>
   </tr>
 </table>
