@@ -13,15 +13,15 @@
 
 <table align="center" width="100%">
   <tr>
-    <td align="center" width="50%"><b>Real-World Pick</b></td>
     <td align="center" width="50%"><b>Gazebo Pick & Place</b></td>
+    <td align="center" width="50%"><b>Real-World Pick</b></td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <img src="assets/real_pick.gif" width="100%">
+      <img src="assets/gazebo_pick_place_coke.gif" width="100%">
     </td>
     <td align="center" width="50%">
-      <img src="assets/gazebo_pick_place_coke.gif" width="100%">
+      <img src="assets/real_pick.gif" width="100%">
     </td>
   </tr>
 </table>
