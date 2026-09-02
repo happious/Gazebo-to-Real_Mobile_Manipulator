@@ -11,17 +11,17 @@
 
 <br>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
-    <td align="center"><b>Real-World Pick</b></td>
-    <td align="center"><b>Gazebo Pick & Place</b></td>
+    <td align="center" width="50%"><b>Real-World Pick</b></td>
+    <td align="center" width="50%"><b>Gazebo Pick & Place</b></td>
   </tr>
   <tr>
-    <td align="center">
-      <img src="assets/gazebo_pick_place_coke.gif" width="480">
+    <td align="center" width="50%">
+      <img src="assets/real_pick.gif" width="100%">
     </td>
-    <td align="center">
-      <img src="assets/real_pick.gif" width="480">
+    <td align="center" width="50%">
+      <img src="assets/gazebo_pick_place_coke.gif" width="100%">
     </td>
   </tr>
 </table>
